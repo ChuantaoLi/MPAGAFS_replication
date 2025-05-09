@@ -3,19 +3,6 @@ from sklearn.neighbors import KNeighborsClassifier
 
 
 def error_rate(xtrain, ytrain, x, opts):
-    """
-    计算特征子集的分类错误率
-
-    参数:
-        xtrain: 完整训练集特征
-        ytrain: 完整训练集标签
-        x: 特征选择向量(0/1)
-        opts: 参数字典
-
-    返回:
-        分类错误率
-    """
-    # 从参数中获取KNN的k值和交叉验证折数
     k = opts['k']
     fold = opts['fold']
 
@@ -47,18 +34,6 @@ def error_rate(xtrain, ytrain, x, opts):
 
 
 def Fun(xtrain, ytrain, x, opts):
-    """
-    适应度函数，结合分类错误率和特征数量
-
-    参数:
-        xtrain: 完整训练集特征
-        ytrain: 完整训练集标签
-        x: 特征选择向量(0/1)
-        opts: 参数字典
-
-    返回:
-        适应度值(越小越好)
-    """
     # 设置权重参数
     alpha = 0.99  # 分类错误率权重
     beta = 1 - alpha  # 特征数量权重
@@ -77,16 +52,6 @@ def Fun(xtrain, ytrain, x, opts):
 
 
 def binary_competition(Li, Lj):
-    """
-    二进制竞争操作：两个个体通过随机选择基因位产生新个体
-
-    参数:
-        Li: 第一个个体(二进制向量)
-        Lj: 第二个个体(二进制向量)
-
-    返回:
-        新生成的个体
-    """
     dim = len(Li)  # 特征维度
     L_new = np.copy(Li)  # 复制第一个个体作为基础
 
@@ -99,25 +64,6 @@ def binary_competition(Li, Lj):
 
 
 def jfs(xtrain, ytrain, opts):
-    """
-    基于竞争群优化的特征选择主函数
-
-    参数:
-        xtrain: 训练集特征
-        ytrain: 训练集标签
-        opts: 参数字典，包含：
-            - dim: 特征维度
-            - N: 每个子种群大小
-            - T: 最大迭代次数
-            - M: 子种群数量
-            - k: KNN参数
-
-    返回:
-        包含以下键的字典:
-            - sf: 选择的特征索引
-            - nf: 选择的特征数量
-            - c: 迭代过程中的最优适应度曲线
-    """
     # 从参数中获取算法参数
     dim = opts['dim']  # 特征维度
     N = opts['N']  # 每个子种群大小
