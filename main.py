@@ -101,10 +101,8 @@ for data_path in tqdm(dataset_paths, desc="处理数据集"):
         print(f"处理数据集 {os.path.basename(data_path)} 时出错: {str(e)}")
         continue
 
-# 将结果转换为DataFrame
 results_df = pd.DataFrame(results)
 
-# 计算汇总统计量
 summary_df = results_df.groupby('dataset').agg({
     'accuracy': ['mean', 'std', 'max', 'min'],
     'f1_score': ['mean', 'std', 'max', 'min'],
@@ -113,7 +111,6 @@ summary_df = results_df.groupby('dataset').agg({
     'run_time': 'mean'
 }).reset_index()
 
-# 重命名列名
 summary_df.columns = [
     'dataset',
     'avg_acc', 'std_acc', 'best_acc', 'worst_acc',
@@ -121,12 +118,8 @@ summary_df.columns = [
     'avg_num_feats', 'avg_feat_ratio', 'avg_run_time'
 ]
 
-# 保存详细结果和汇总结果
 detailed_output = "detailed_results.csv"
 summary_output = "summary_results.csv"
 
 results_df.to_csv(detailed_output, index=False)
 summary_df.to_csv(summary_output, index=False)
-
-print(f"\n实验完成! 详细结果已保存到 {detailed_output}")
-print(f"汇总结果已保存到 {summary_output}")
